@@ -19,7 +19,7 @@ func TestDoublyLinkedList_First(t *testing.T) {
 	DLL.PushBack(45)
 	firstElem, err = DLL.First()
 	if firstElem == nil {
-		t.Errorf("DoublyLinkedList.First() for list with 1 element | Actual value = %v Expected value = %v", firstElem, Item{Value:45})
+		t.Errorf("DoublyLinkedList.First() for list with 1 element | Actual value = %v Expected value = %v", firstElem, Item{value:45})
 	}
 	if err != nil {
 		t.Errorf("DoublyLinkedList.First() for list with 1 element | Actual error = %v Expected error = %v", err,  nil)
@@ -28,7 +28,7 @@ func TestDoublyLinkedList_First(t *testing.T) {
 	DLL.PushBack(54)
 	firstElem, err = DLL.First()
 	if firstElem == nil {
-		t.Errorf("DoublyLinkedList.First() for list with 2 element | Actual value = %v Expected value = %v", firstElem, Item{Value:45})
+		t.Errorf("DoublyLinkedList.First() for list with 2 element | Actual value = %v Expected value = %v", firstElem, Item{value:45})
 	}
 	if err != nil {
 		t.Errorf("DoublyLinkedList.First() for list with 2 element | Actual error = %v Expected error = %v", err,  nil)
@@ -47,7 +47,7 @@ func TestDoublyLinkedList_Last(t *testing.T) {
 	DLL.PushBack(45)
 	lastElem, err = DLL.Last()
 	if lastElem == nil {
-		t.Errorf("DoublyLinkedList.Last() for list with 1 element | Actual value = %v Expected value = %v", lastElem, Item{Value:45})
+		t.Errorf("DoublyLinkedList.Last() for list with 1 element | Actual value = %v Expected value = %v", lastElem, Item{value:45})
 	}
 	if err != nil {
 		t.Errorf("DoublyLinkedList.Last() for list with 1 element | Actual error = %v Expected error = %v", err,  nil)
@@ -56,7 +56,7 @@ func TestDoublyLinkedList_Last(t *testing.T) {
 	DLL.PushBack(54)
 	lastElem, err = DLL.Last()
 	if lastElem == nil {
-		t.Errorf("DoublyLinkedList.Last() for list with 2 element | Actual value = %v Expected value = %v", lastElem, Item{Value:54})
+		t.Errorf("DoublyLinkedList.Last() for list with 2 element | Actual value = %v Expected value = %v", lastElem, Item{value:54})
 	}
 	if err != nil {
 		t.Errorf("DoublyLinkedList.Last() for list with 2 element | Actual error = %v Expected error = %v", err,  nil)
@@ -89,13 +89,13 @@ func TestDoublyLinkedList_PushBack(t *testing.T) {
 	elem2 := 54321
 
 	DLL.PushBack(elem1)
-	if DLL.Tail.Value != elem1 {
-		t.Errorf("DoublyLinkedList.PushBack(%v) | Actual Tail = %v Expected Tail = %v", elem1, DLL.Tail.Value, elem1)
+	if DLL.tail.value != elem1 {
+		t.Errorf("DoublyLinkedList.PushBack(%v) | Actual Tail = %v Expected Tail = %v", elem1, DLL.tail.value, elem1)
 	}
 	DLL.PushBack(elem2)
 
-	if DLL.Tail.Value != elem2 {
-		t.Errorf("DoublyLinkedList.PushBack(%v) | Actual Tail = %v Expected Tail = %v", elem2, DLL.Tail.Value, elem2)
+	if DLL.tail.value != elem2 {
+		t.Errorf("DoublyLinkedList.PushBack(%v) | Actual Tail = %v Expected Tail = %v", elem2, DLL.tail.value, elem2)
 	}
 }
 func TestDoublyLinkedList_PushFront(t *testing.T) {
@@ -104,12 +104,12 @@ func TestDoublyLinkedList_PushFront(t *testing.T) {
 	elem2 := 98765
 
 	DLL.PushFront(elem1)
-	if DLL.Head.Value != elem1 {
-		t.Errorf("DoublyLinkedList.PushFront(%v) | Actual Head = %v Expected Head = %v", elem1, DLL.Head.Value, elem1)
+	if DLL.head.value != elem1 {
+		t.Errorf("DoublyLinkedList.PushFront(%v) | Actual Head = %v Expected Head = %v", elem1, DLL.head.value, elem1)
 	}
 	DLL.PushFront(elem2)
-	if DLL.Head.Value != elem2 {
-		t.Errorf("DoublyLinkedList.PushFront(%v) | Actual Head = %v Expected Head = %v", elem2, DLL.Head.Value, elem2)
+	if DLL.head.value != elem2 {
+		t.Errorf("DoublyLinkedList.PushFront(%v) | Actual Head = %v Expected Head = %v", elem2, DLL.head.value, elem2)
 	}
 }
 func TestDoublyLinkedList_GetByIndex(t *testing.T) {
@@ -203,11 +203,11 @@ func TestItem_Remove(t *testing.T) {
 		second, err2 := DLL.GetByValue("second")
 		fourth, err3 := DLL.GetByValue("fourth")
 		if second != nil && fourth != nil {
-			if second.Next != fourth {
-				t.Errorf("Item.Remove() for item %v | Pointers of second and fourth elements | Actual second Next pointer/addr = %v/%p Expected second Next pointer/addr = %v/%p", elem, second.Next, second.Next, fourth, fourth)
+			if second.next != fourth {
+				t.Errorf("Item.Remove() for item %v | Pointers of second and fourth elements | Actual second Next pointer/addr = %v/%p Expected second Next pointer/addr = %v/%p", elem, second.next, second.next, fourth, fourth)
 			}
-			if fourth.Prev != second {
-				t.Errorf("Item.Remove() for item %v | Pointers of second and fourth elements after deleting third element | Actual fourth Prev pointer/addr = %v/%p Expected fourth Prev pointer/addr = %v/%p", elem, fourth.Prev, fourth.Prev, second, second)
+			if fourth.prev != second {
+				t.Errorf("Item.Remove() for item %v | Pointers of second and fourth elements after deleting third element | Actual fourth Prev pointer/addr = %v/%p Expected fourth Prev pointer/addr = %v/%p", elem, fourth.prev, fourth.prev, second, second)
 			}
 		} else {
 			t.Errorf("DoublyLinkedList.GetByValue(%v) and DoublyLinkedList.GetByValue(%v) | Actual errors: %v %v Expected errors: %v %v", "second", "fourth", err2, err3, nil, nil)
@@ -228,8 +228,8 @@ func TestItem_Remove(t *testing.T) {
 		if DLL.Len() == originalLen {
 			t.Errorf("Item.Remove() for item %v | Actual list len = %v Expected list len = %v", elem, DLL.Len(), originalLen - 1)
 		}
-		newHead := DLL.Head
-		newHeadPrev := newHead.Prev
+		newHead := DLL.head
+		newHeadPrev := newHead.prev
 		second, err2 := DLL.GetByValue("second")
 		if second != nil{
 			if second != newHead {
@@ -259,8 +259,8 @@ func TestItem_Remove(t *testing.T) {
 		if DLL.Len() == originalLen {
 			t.Errorf("Item.Remove() for item %v | Actual list len = %v Expected list len = %v", elem, DLL.Len(), originalLen - 1)
 		}
-		newTail := DLL.Tail
-		newTailNext := newTail.Next
+		newTail := DLL.tail
+		newTailNext := newTail.next
 		fourth, err3 := DLL.GetByValue("fourth")
 		if fourth != nil{
 			if fourth != newTail {
@@ -277,5 +277,4 @@ func TestItem_Remove(t *testing.T) {
 	if err1 != nil{
 		t.Errorf("DoublyLinkedList.GetByValue(%v) for list with elements=['first', 'second', 'fourth', 'fifth'] | Actual error = %v Expected error = %v",value, err1,  nil)
 	}
-
 }
