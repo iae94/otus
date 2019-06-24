@@ -4,75 +4,62 @@ import "fmt"
 import "errors"
 
 type Item struct {
-	Value interface{}
-	Next  *Item
-	Prev  *Item
-	List  *DoublyLinkedList
+	value interface{}
+	next  *Item
+	prev  *Item
+	list  *DoublyLinkedList
 }
 
 func (item *Item) Remove() *Item {
 	switch {
-	case item.List.Len() == 1:
-		item.List.Head = nil
-		item.List.Tail = nil
-	case item == item.List.Head:
-		item.List.Head = item.Next
-		item.Next.Prev = nil
-	case item == item.List.Tail:
-		item.List.Tail = item.Prev
-		item.Prev.Next = nil
+	case item.list.Len() == 1:
+		item.list.head = nil
+		item.list.tail = nil
+	case item == item.list.head:
+		item.list.head = item.next
+		item.next.prev = nil
+	case item == item.list.tail:
+		item.list.tail = item.prev
+		item.prev.next = nil
 	default:
-		item.Prev.Next = item.Next
-		item.Next.Prev = item.Prev
+		item.prev.next = item.next
+		item.next.prev = item.prev
 	}
-
+	item.list.length--
 	return item
 }
 
 type DoublyLinkedList struct {
-	Head *Item
-	Tail *Item
+	head *Item
+	tail *Item
+	length int
 }
 
 func (d *DoublyLinkedList) Print() {
-
-	elem := d.Head
+	elem := d.head
 	if elem == nil {
 		fmt.Printf("List is empty")
 	} else {
 		var index int
 		for elem != nil {
-
-			fmt.Printf("i = '%v' Value = '%v' This addr = '%p' Next addr = '%p' Prev addr = '%p'\n", index, elem.Value, elem, elem.Next, elem.Prev)
+			fmt.Printf("i = '%v' Value = '%v' This addr = '%p' Next addr = '%p' Prev addr = '%p'\n", index, elem.value, elem, elem.next, elem.prev)
 			index++
-			elem = elem.Next
+			elem = elem.next
 		}
 	}
 }
-func (d *DoublyLinkedList) Len() int {
-	elem := d.Head
-	if elem == nil {
-		return 0
-	} else {
-		var size int
-		for elem != nil {
-			size++
-			elem = elem.Next
-		}
-		return size
-	}
+func (d *DoublyLinkedList) Len() int {	return d.length }
 
-}
 func (d *DoublyLinkedList) First() (*Item, error) {
 	if d.Len() > 0 {
-		return d.Head, nil
+		return d.head, nil
 	} else {
 		return nil, errors.New("list is empty")
 	}
 }
 func (d *DoublyLinkedList) Last() (*Item, error) {
 	if d.Len() > 0 {
-		return d.Tail, nil
+		return d.tail, nil
 	} else {
 		return nil, errors.New("list is empty")
 	}
@@ -83,24 +70,24 @@ func (d *DoublyLinkedList) PushFront(elem interface{}) Item {
 	var item Item
 	if err != nil {
 		item = Item{
-			Value: elem,
-			Next:  nil,
-			Prev:  nil,
-			List:  d,
+			value: elem,
+			next:  nil,
+			prev:  nil,
+			list:  d,
 		}
-		d.Head = &item
-		d.Tail = &item
-
+		d.head = &item
+		d.tail = &item
 	} else {
 		item = Item{
-			Value: elem,
-			Next:  head,
-			Prev:  nil,
-			List:  d,
+			value: elem,
+			next:  head,
+			prev:  nil,
+			list:  d,
 		}
-		head.Prev = &item
-		d.Head = &item
+		head.prev = &item
+		d.head = &item
 	}
+	d.length++
 	return item
 }
 func (d *DoublyLinkedList) PushBack(elem interface{}) Item {
@@ -108,62 +95,57 @@ func (d *DoublyLinkedList) PushBack(elem interface{}) Item {
 	var item Item
 	if err != nil {
 		item = Item{
-			Value: elem,
-			Next:  nil,
-			Prev:  nil,
-			List:  d,
+			value: elem,
+			next:  nil,
+			prev:  nil,
+			list:  d,
 		}
-		d.Head = &item
-		d.Tail = &item
-
+		d.head = &item
+		d.tail = &item
 	} else {
 		item = Item{
-			Value: elem,
-			Next:  nil,
-			Prev:  tail,
-			List:  d,
+			value: elem,
+			next:  nil,
+			prev:  tail,
+			list:  d,
 		}
-		tail.Next = &item
-		d.Tail = &item
+		tail.next = &item
+		d.tail = &item
 	}
+	d.length++
 	return item
 }
 func (d *DoublyLinkedList) GetByIndex(i int) (*Item, error) {
 	if i >= d.Len() {
 		return nil, fmt.Errorf("no element with index %v", i)
 	} else {
-		elem := d.Head
+		elem := d.head
 		var index int
 
 		for index != i {
 			index++
-			elem = elem.Next
+			elem = elem.next
 		}
 		return elem, nil
 	}
-
 }
 func (d *DoublyLinkedList) GetByValue(value interface{}) (*Item, error) {
-
 	if d.Len() != 0 {
-		elem := d.Head
+		elem := d.head
 		for elem != nil {
-			if elem.Value == value {
+			if elem.value == value {
 				return elem, nil
 			}
-			elem = elem.Next
+			elem = elem.next
 		}
 	}
 	return nil, fmt.Errorf("no element with value %v", value)
-
 }
 
 func main() {
-
+	DLL := DoublyLinkedList{}
 	slicel := []int{4, 6, 7, 3, 9, 1}
 	slice2 := []string{"str1", "str2", "str3", "str4", "str5"}
-
-	DLL := DoublyLinkedList{}
 
 	//Push back slice1
 	for _, s := range slicel {
